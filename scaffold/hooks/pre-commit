@@ -1,12 +1,26 @@
 #!/usr/bin/env bash
-# pre-commit hook: runs test_cmd from .ralphrc.json before allowing a commit.
-# If .ralphrc.json is missing, warns and allows the commit (non-ralph project).
+# pre-commit hook: runs checks before allowing a commit.
+# Prefers `just check` when a justfile is present; falls back to .ralphrc.json test_cmd.
 set -euo pipefail
 
+# Prefer `just check` if a justfile is present
+if [ -f "justfile" ] || [ -f "Justfile" ]; then
+    echo "[ralph] running: just check"
+    if ! just check; then
+        echo ""
+        echo "[ralph] COMMIT BLOCKED: just check failed."
+        echo "[ralph] Fix the failures above, then retry your commit."
+        exit 1
+    fi
+    echo "[ralph] checks passed — commit allowed"
+    exit 0
+fi
+
+# Fallback: read test_cmd from .ralphrc.json
 RALPHRC=".ralphrc.json"
 
 if [ ! -f "$RALPHRC" ]; then
-    echo "[ralph] warning: .ralphrc.json not found — skipping test gate"
+    echo "[ralph] warning: no justfile and no .ralphrc.json — skipping test gate"
     exit 0
 fi
 
