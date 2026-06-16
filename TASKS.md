@@ -253,6 +253,22 @@
 
 ---
 
+## Sprint v0.2.0: mise + just integration (complete)
+
+All tasks delivered in one session. See `prd.json` for machine-readable state.
+
+- [x] **TASK-100** — Add v0.2.0 stories to `prd.json`
+- [x] **TASK-101** — Create `.mise.toml` at repo root (pins Python 3.12, uv, just)
+- [x] **TASK-102** — Create `justfile` at repo root (install/test/lint/check/ralph/status/loop)
+- [x] **TASK-103** — Update `CLAUDE.md` to use `just` verbs as primary commands
+- [x] **TASK-104** — Add `scaffold/justfile.example` and `scaffold/.mise.toml.example`
+- [x] **TASK-105** — Update `scaffold/hooks/pre-commit` to prefer `just check`
+- [x] **TASK-106** — Update both `AGENTS.md` files to reference `just` verbs
+- [x] **TASK-107** — Fix `README.md`: add mise/just prerequisites, consistent `uv sync --extra dev`
+- [x] **TASK-108** — Full v0.2.0 AC sweep
+
+---
+
 ## Commit Log
 
 - [TASK-001] initialize repo skeleton and pyproject.toml (2026-06-15)
@@ -262,3 +278,9 @@
 - [TASK-009/010/011] scaffold templates, pre-commit hook, install.sh (2026-06-15)
 - [TASK-012/013/014] self-hosting wiring, CLAUDE.md, README (2026-06-15)
 - [TASK-015] final AC sweep, prd.json all passes, task_runner returns done (2026-06-15)
+- [TASK-100/101/102] prd.json v0.2.0 stories, .mise.toml, justfile (2026-06-16)
+- [TASK-103] update CLAUDE.md to use just verbs as primary commands (2026-06-16)
+- [TASK-104/105] scaffold examples and updated pre-commit hook (2026-06-16)
+- [TASK-106] update both AGENTS.md files to use just verbs (2026-06-16)
+- [TASK-107] fix README with mise/just prerequisites and consistent uv sync (2026-06-16)
+- [TASK-108] final v0.2.0 AC sweep — all tasks complete, prd.json done (2026-06-16)

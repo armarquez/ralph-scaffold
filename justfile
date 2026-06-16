@@ -1,5 +1,8 @@
 # ralph-scaffold justfile
-# Run `just` to see all available recipes.
+
+[private]
+default:
+    @just --list
 
 # Install all dependencies and wire the pre-commit hook
 install:
