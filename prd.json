@@ -202,6 +202,94 @@
       "blocked_reason": "",
       "acceptance": "Resolved: decision documented in PRD.md",
       "notes": "Should progress.txt be committed to git or added to .gitignore by default?"
+    },
+    {
+      "id": "TASK-100",
+      "title": "Add v0.2.0 stories to prd.json",
+      "priority": 100,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "prd.json contains stories TASK-100 through TASK-107",
+      "notes": ""
+    },
+    {
+      "id": "TASK-101",
+      "title": "Create .mise.toml at repo root",
+      "priority": 101,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-100: file is valid TOML with python, uv, just tool pins",
+      "notes": ""
+    },
+    {
+      "id": "TASK-102",
+      "title": "Create justfile at repo root",
+      "priority": 102,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-101 through AC-106: just --list shows all recipes; each recipe works",
+      "notes": ""
+    },
+    {
+      "id": "TASK-103",
+      "title": "Update CLAUDE.md to use just verbs",
+      "priority": 103,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-111: CLAUDE.md references just install, just check, just test, just lint",
+      "notes": ""
+    },
+    {
+      "id": "TASK-104",
+      "title": "Add scaffold/justfile.example and scaffold/.mise.toml.example",
+      "priority": 104,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-107, AC-108: both files exist with EDIT THIS markers",
+      "notes": ""
+    },
+    {
+      "id": "TASK-105",
+      "title": "Update scaffold/hooks/pre-commit to prefer just check",
+      "priority": 105,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-109, AC-110: just check used when justfile present; falls back to .ralphrc.json",
+      "notes": ""
+    },
+    {
+      "id": "TASK-106",
+      "title": "Update both AGENTS.md files to reference just verbs",
+      "priority": 106,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-112, AC-113: both AGENTS.md files use just as primary idiom",
+      "notes": ""
+    },
+    {
+      "id": "TASK-107",
+      "title": "Fix README.md inconsistencies and add mise/just prerequisites",
+      "priority": 107,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-114, AC-115: mise and just in prerequisites; uv sync --extra dev consistent",
+      "notes": ""
     }
   ]
 }

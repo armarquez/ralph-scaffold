@@ -1,0 +1,8 @@
+[tools]
+python = "3.12"
+uv = "latest"
+just = "latest"
+
+[env]
+# Ensure uv uses the mise-managed Python
+UV_PYTHON = "python3.12"
