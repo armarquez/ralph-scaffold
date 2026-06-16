@@ -1,0 +1,32 @@
+[project]
+name = "ralph-scaffold"
+version = "0.1.0"
+description = "Tool-agnostic Ralph loop scaffold for autonomous AI coding agents"
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.5",
+    "ruff>=0.11.13",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--tb=short -q"
+
+[tool.hatch.build.targets.wheel]
+packages = ["scaffold"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
