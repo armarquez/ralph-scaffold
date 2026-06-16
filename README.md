@@ -13,7 +13,7 @@ implements one task at a time, runs tests, commits, and repeats. `ralph-scaffold
 - `ralph.py` — loop runner: calls your agent CLI, checks progress, enforces circuit breakers
 - `pre-commit` hook — blocks commits when tests fail
 - `PROMPT.md` / `AGENTS.md` — agent-readable context templates
-- `install.sh` — one command to copy everything into a new project
+- `just onboard <path>` — one command to scaffold a project and get a setup checklist
 
 ## Prerequisites
 
@@ -35,37 +35,23 @@ mise install        # installs Python 3.12, uv, and just
 just install        # syncs dev deps and wires the pre-commit hook
 ```
 
-**Step 2 — Install the scaffold into your project:**
+**Step 2 — Onboard your project:**
 
 ```bash
-./install.sh /path/to/your-project
+just onboard /path/to/your-project
 ```
+
+This copies the scaffold files and prints a checklist of what to fill in next.
+Run `just setup /path/to/your-project` any time to reprint the checklist.
 
 **Step 3 — Fill in the templates and run:**
 
+Follow the checklist from Step 2, then:
+
 ```bash
 cd /path/to/your-project
-
-# 1. Create your task list
-cp prd.json.example prd.json
-# Edit prd.json: add your project name and stories
-
-# 2. Copy and fill in tool config
-cp .mise.toml.example .mise.toml
-cp justfile.example justfile
-# Edit both files: replace [PLACEHOLDERS] with your project's commands
-
-# 3. Fill in agent context
-edit .ralph/AGENTS.md
-edit .ralph/PROMPT.md
-
-# 4. Configure the loop runner
-edit .ralphrc.json
-# Set agent_cmd to your agent (e.g. "claude --dangerously-skip-permissions")
-
-# 5. Run
-just status     # see current task state
-just ralph      # dry-run to preview what would be called
+just status     # verify task list loaded correctly
+just ralph      # dry-run to preview what the loop would call
 just loop       # start the loop (calls your agent until all tasks pass)
 ```
 
