@@ -1,0 +1,207 @@
+{
+  "project": {
+    "name": "ralph-scaffold",
+    "version": "0.1.0",
+    "branch": "main"
+  },
+  "stories": [
+    {
+      "id": "TASK-001",
+      "title": "Initialize repo structure and pyproject.toml",
+      "priority": 1,
+      "optional": false,
+      "passes": true,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "uv run pytest discovers tests/ with zero errors; uv run ruff check . passes",
+      "notes": ""
+    },
+    {
+      "id": "TASK-002",
+      "title": "Write prd.json (machine-readable PRD)",
+      "priority": 2,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "python -c \"import json; json.load(open('prd.json'))\" exits 0",
+      "notes": ""
+    },
+    {
+      "id": "TASK-003",
+      "title": "Write .ralphrc.json (loop config)",
+      "priority": 3,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "python -c \"import json; json.load(open('.ralphrc.json'))\" exits 0",
+      "notes": ""
+    },
+    {
+      "id": "TASK-004",
+      "title": "Implement task_runner.py core (stdlib only)",
+      "priority": 4,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-05 through AC-10 from PRD.md",
+      "notes": ""
+    },
+    {
+      "id": "TASK-005",
+      "title": "Write tests for task_runner.py",
+      "priority": 5,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "uv run pytest tests/test_task_runner.py -v exits 0",
+      "notes": ""
+    },
+    {
+      "id": "TASK-006",
+      "title": "Implement ralph.py core loop (stdlib only)",
+      "priority": 6,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-11 through AC-18 from PRD.md",
+      "notes": ""
+    },
+    {
+      "id": "TASK-007",
+      "title": "Implement circuit breaker in ralph.py",
+      "priority": 7,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-14, AC-15 from PRD.md; unit test with mock subprocess",
+      "notes": ""
+    },
+    {
+      "id": "TASK-008",
+      "title": "Write tests for ralph.py",
+      "priority": 8,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "uv run pytest tests/test_ralph.py -v exits 0",
+      "notes": ""
+    },
+    {
+      "id": "TASK-009",
+      "title": "Write .ralph/PROMPT.md template",
+      "priority": 9,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "File exists; contains all 5 sections; RALPH_STATUS format is present verbatim",
+      "notes": ""
+    },
+    {
+      "id": "TASK-010",
+      "title": "Write AGENTS.md template and prd.json.example",
+      "priority": 10,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "Both files exist and are valid (json.load passes on prd.json.example)",
+      "notes": ""
+    },
+    {
+      "id": "TASK-011",
+      "title": "Write pre-commit hook and install.sh",
+      "priority": 11,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-01 through AC-04, AC-19, AC-20 from PRD.md",
+      "notes": ""
+    },
+    {
+      "id": "TASK-012",
+      "title": "Wire up self-hosting: populate .ralph/ for this repo",
+      "priority": 12,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "Running task_runner.py status from repo root prints correct task table",
+      "notes": ""
+    },
+    {
+      "id": "TASK-013",
+      "title": "Write CLAUDE.md (Claude Code context file)",
+      "priority": 13,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "File exists at root; contains all four pointers",
+      "notes": ""
+    },
+    {
+      "id": "TASK-014",
+      "title": "Write README.md",
+      "priority": 14,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "AC-24 from PRD.md; all commands in Quickstart are syntactically valid",
+      "notes": ""
+    },
+    {
+      "id": "TASK-015",
+      "title": "Full acceptance criteria sweep",
+      "priority": 15,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "All ACs checked; all prd.json stories pass; task_runner.py next returns {done: true}",
+      "notes": ""
+    },
+    {
+      "id": "OQ-001",
+      "title": "Open Question: ralph.py --loop-once flag for CI use",
+      "priority": 100,
+      "optional": true,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "Resolved: decision documented in PRD.md",
+      "notes": "Should ralph.py support a --loop-once flag for CI use (run exactly one iteration and exit)?"
+    },
+    {
+      "id": "OQ-002",
+      "title": "Open Question: install.sh git init behavior",
+      "priority": 100,
+      "optional": true,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "Resolved: decision documented in PRD.md",
+      "notes": "Should install.sh run git init if the target directory is not already a git repo?"
+    },
+    {
+      "id": "OQ-003",
+      "title": "Open Question: progress.txt gitignore decision",
+      "priority": 100,
+      "optional": true,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "Resolved: decision documented in PRD.md",
+      "notes": "Should progress.txt be committed to git or added to .gitignore by default?"
+    }
+  ]
+}
