@@ -17,52 +17,56 @@ implements one task at a time, runs tests, commits, and repeats. `ralph-scaffold
 
 ## Prerequisites
 
-- Python 3.11+
-- `uv` (install: `curl -LsSf https://astral.sh/uv/install.sh | sh`)
+- `mise` — manages Python, uv, and just (install once: `curl https://mise.run | sh`)
+- `just` — installed automatically via `mise install`
+- Python 3.12+ — installed automatically via `mise install`
+- `uv` — installed automatically via `mise install`
 - A git repo to install into
 - An agent CLI (Claude Code, OpenHands, Amp, etc.)
 
 ## Quickstart
 
-**Step 1 — Clone and install the scaffold into your project:**
+**Step 1 — Clone and install tools:**
 
 ```bash
 git clone https://github.com/armarquez/ralph-scaffold
 cd ralph-scaffold
+mise install        # installs Python 3.12, uv, and just
+just install        # syncs dev deps and wires the pre-commit hook
+```
+
+**Step 2 — Install the scaffold into your project:**
+
+```bash
 ./install.sh /path/to/your-project
 ```
 
-**Step 2 — Fill in the templates:**
+**Step 3 — Fill in the templates and run:**
 
 ```bash
 cd /path/to/your-project
 
 # 1. Create your task list
-cp scaffold/prd.json.example prd.json
+cp prd.json.example prd.json
 # Edit prd.json: add your project name and stories
 
-# 2. Fill in build/test/lint commands
-edit .ralph/AGENTS.md
+# 2. Copy and fill in tool config
+cp .mise.toml.example .mise.toml
+cp justfile.example justfile
+# Edit both files: replace [PLACEHOLDERS] with your project's commands
 
-# 3. Fill in project context for the agent
+# 3. Fill in agent context
+edit .ralph/AGENTS.md
 edit .ralph/PROMPT.md
 
 # 4. Configure the loop runner
 edit .ralphrc.json
 # Set agent_cmd to your agent (e.g. "claude --dangerously-skip-permissions")
-```
 
-**Step 3 — Run the loop:**
-
-```bash
-# See current task state
-RALPH_PRD=prd.json python scaffold/scripts/task_runner.py status
-
-# Start the loop (calls your agent in a loop until all tasks pass)
-python scaffold/scripts/ralph.py
-
-# Dry-run to preview what would be called
-python scaffold/scripts/ralph.py --dry-run
+# 5. Run
+just status     # see current task state
+just ralph      # dry-run to preview what would be called
+just loop       # start the loop (calls your agent until all tasks pass)
 ```
 
 ## File Reference
@@ -72,11 +76,12 @@ python scaffold/scripts/ralph.py --dry-run
 | `install.sh` | Entry point: copies scaffold into target project |
 | `scaffold/scripts/ralph.py` | Loop runner — calls agent, checks exit gate, circuit breaker |
 | `scaffold/scripts/task_runner.py` | prd.json state machine |
-| `scaffold/hooks/pre-commit` | Git hook: blocks commits when tests fail |
+| `scaffold/hooks/pre-commit` | Git hook: runs `just check` or `.ralphrc.json` test_cmd |
 | `scaffold/.ralph/PROMPT.md` | Agent instructions template |
 | `scaffold/.ralph/AGENTS.md` | Build/test/lint commands template |
 | `scaffold/prd.json.example` | Annotated prd.json template |
-| `scaffold/.ralphrc.json` | Loop config (agent cmd, max loops, circuit breaker) |
+| `scaffold/justfile.example` | justfile template with EDIT THIS markers |
+| `scaffold/.mise.toml.example` | .mise.toml template with tool pins |
 | `prd.json` | This repo's own task list (self-hosting example) |
 | `.ralph/` | This repo's own filled-in agent context |
 
@@ -106,7 +111,8 @@ flowchart TD
 ## Contributing
 
 1. Fork the repo
-2. Run `uv sync --extra dev` to install dev deps
-3. Work through `TASKS.md` top-to-bottom
-4. Run `uv run pytest --tb=short -q && uv run ruff check .` before every commit
-5. Open a PR against `main`
+2. Run `mise install` to get Python, uv, and just
+3. Run `just install` to install dev deps and wire the pre-commit hook
+4. Work through `TASKS.md` top-to-bottom
+5. Run `just check` before every commit
+6. Open a PR against `main`
