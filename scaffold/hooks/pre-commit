@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# pre-commit hook: runs test_cmd from .ralphrc.json before allowing a commit.
+# If .ralphrc.json is missing, warns and allows the commit (non-ralph project).
+set -euo pipefail
+
+RALPHRC=".ralphrc.json"
+
+if [ ! -f "$RALPHRC" ]; then
+    echo "[ralph] warning: .ralphrc.json not found — skipping test gate"
+    exit 0
+fi
+
+TEST_CMD=$(python3 -c "
+import json, sys
+try:
+    cfg = json.load(open('$RALPHRC'))
+    print(cfg.get('test_cmd', ''))
+except Exception as e:
+    print(f'error reading $RALPHRC: {e}', file=sys.stderr)
+    sys.exit(1)
+")
+
+if [ -z "$TEST_CMD" ]; then
+    echo "[ralph] warning: test_cmd not set in $RALPHRC — skipping test gate"
+    exit 0
+fi
+
+echo "[ralph] running: $TEST_CMD"
+if ! eval "$TEST_CMD"; then
+    echo ""
+    echo "[ralph] COMMIT BLOCKED: tests failed."
+    echo "[ralph] Fix the failures above, then retry your commit."
+    exit 1
+fi
+
+echo "[ralph] tests passed — commit allowed"

@@ -1,0 +1,56 @@
+{
+  "_comment": "Rename this file to prd.json. Remove all _comment_ keys before use.",
+  "project": {
+    "_comment_name": "Short identifier for your project. Used in progress logs.",
+    "name": "my-project",
+    "_comment_version": "Semver string. Increment when you cut a release.",
+    "version": "0.1.0",
+    "_comment_branch": "The primary git branch this PRD tracks.",
+    "branch": "main"
+  },
+  "stories": [
+    {
+      "_comment_id": "Unique task identifier. Convention: TASK-NNN or FEAT-NNN.",
+      "id": "TASK-001",
+      "_comment_title": "Short, imperative title. Shown in status table and progress log.",
+      "title": "Set up project skeleton",
+      "_comment_priority": "Integer. Lower = higher priority. task_runner.py picks the lowest.",
+      "priority": 1,
+      "_comment_optional": "If true, this task is excluded from the done check. Use for stretch goals.",
+      "optional": false,
+      "_comment_passes": "Set to true by the agent when this task is complete. Do not edit manually.",
+      "passes": false,
+      "_comment_blocked": "Set to true by task_runner.py when the agent calls `block`. Do not edit manually.",
+      "blocked": false,
+      "_comment_blocked_reason": "Populated by task_runner.py when blocked. Leave empty.",
+      "blocked_reason": "",
+      "_comment_acceptance": "Human-readable pass/fail condition. Agent reads this to know when it is done.",
+      "acceptance": "uv run pytest exits 0; directory structure matches spec",
+      "_comment_notes": "Free-form notes. Safe to edit at any time.",
+      "notes": ""
+    },
+    {
+      "id": "TASK-002",
+      "title": "Implement core feature",
+      "priority": 2,
+      "optional": false,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "All unit tests pass; ruff check returns no errors",
+      "notes": "See .ralph/specs/TASK-002.md for detailed requirements"
+    },
+    {
+      "_comment_optional_example": "Optional tasks are skipped in the done check but still attempted.",
+      "id": "TASK-OPT-001",
+      "title": "Add optional stretch feature",
+      "priority": 99,
+      "optional": true,
+      "passes": false,
+      "blocked": false,
+      "blocked_reason": "",
+      "acceptance": "Feature works end-to-end; covered by at least one test",
+      "notes": "Nice to have; does not block release"
+    }
+  ]
+}
