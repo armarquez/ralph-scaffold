@@ -3,27 +3,35 @@
 ## Build Commands
 
 ```bash
-# Install dev dependencies
-uv sync --extra dev
+# First time setup (installs deps + wires pre-commit hook)
+just install
 
 # Run tests
-uv run pytest --tb=short -q
+just test
 
 # Run linter
-uv run ruff check .
+just lint
 
-# Run both (required before every commit)
-uv run pytest --tb=short -q && uv run ruff check .
+# Run both — required before every commit
+just check
+
+# Dry-run the ralph loop
+just ralph
+
+# Show task status
+just status
 ```
+
+Requires `mise` and `just`. Install mise once: `curl https://mise.run | sh`, then `mise install`.
 
 ## How to Run the Project
 
 ```bash
 # Run the task runner against this repo's own prd.json
-RALPH_PRD=prd.json python scaffold/scripts/task_runner.py status
+just status
 
 # Run the loop runner in dry-run mode
-python scaffold/scripts/ralph.py --dry-run
+just ralph
 
 # Install scaffold into another project
 ./install.sh /path/to/target-project
