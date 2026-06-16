@@ -33,7 +33,7 @@
 
 ### Phase 1 — Repo skeleton
 
-- [ ] **TASK-001** — Initialize repo structure and pyproject.toml
+- [x] **TASK-001** — Initialize repo structure and pyproject.toml
   - Create all directories: `scaffold/.ralph/scaffold/.ralph/specs/`, `scaffold/scripts/`,
     `scaffold/hooks/`, `tests/`, `.ralph/specs/`
   - Create `pyproject.toml` with: `[project]` metadata, `[tool.ruff]` config,
@@ -43,7 +43,7 @@
   - Acceptance: `uv run pytest` discovers `tests/` with zero errors; `uv run ruff check .` passes
   - Notes: —
 
-- [ ] **TASK-002** — Write `prd.json` (this project's own machine-readable PRD)
+- [x] **TASK-002** — Write `prd.json` (this project's own machine-readable PRD)
   - Must conform exactly to the schema in PRD.md §7
   - Include all stories from this TASKS.md as entries (TASK-001 through TASK-015)
   - Set `passes: false` for all; set `optional: false` unless marked `[s]` above
@@ -51,7 +51,7 @@
   - Acceptance: `python -c "import json; json.load(open('prd.json'))"` exits 0
   - Notes: —
 
-- [ ] **TASK-003** — Write `.ralphrc.json` (this project's own loop config)
+- [x] **TASK-003** — Write `.ralphrc.json` (this project's own loop config)
   - Must conform exactly to the schema in PRD.md §7
   - Use `"agent_cmd": "claude --dangerously-skip-permissions"` as default
   - Use `"test_cmd": "uv run pytest --tb=short -q"` and `"lint_cmd": "uv run ruff check ."`
@@ -62,7 +62,7 @@
 
 ### Phase 2 — task_runner.py
 
-- [ ] **TASK-004** — Implement `task_runner.py` core (stdlib only)
+- [x] **TASK-004** — Implement `task_runner.py` core (stdlib only)
   - Location: `scaffold/scripts/task_runner.py`
   - Subcommands: `next`, `complete <id>`, `block <id> <reason>`, `status`
   - `next`: reads `prd.json` (path from env var `RALPH_PRD` or default `prd.json`),
@@ -75,7 +75,7 @@
   - Acceptance: AC-05 through AC-10 from PRD.md
   - Notes: —
 
-- [ ] **TASK-005** — Write tests for task_runner.py
+- [x] **TASK-005** — Write tests for task_runner.py
   - Location: `tests/test_task_runner.py`
   - Use `tmp_path` fixture to create temporary `prd.json` files
   - Test cases:
@@ -94,7 +94,7 @@
 
 ### Phase 3 — ralph.py loop runner
 
-- [ ] **TASK-006** — Implement `ralph.py` core loop (stdlib only)
+- [x] **TASK-006** — Implement `ralph.py` core loop (stdlib only)
   - Location: `scaffold/scripts/ralph.py`
   - On startup: read `.ralphrc.json` (fail fast with clear error if missing or malformed)
   - Main loop:
@@ -107,14 +107,14 @@
   - Acceptance: AC-11 through AC-18 from PRD.md
   - Notes: —
 
-- [ ] **TASK-007** — Implement circuit breaker in ralph.py
+- [x] **TASK-007** — Implement circuit breaker in ralph.py
   - Track last N git diffs; if identical (no changes) for `no_progress_threshold` loops → halt
   - Track last N error outputs; if same string for `same_error_threshold` loops → halt
   - On halt: print circuit breaker state, log to `progress.txt`, exit with code 2
   - Acceptance: AC-14, AC-15 from PRD.md; unit test with mock subprocess
   - Notes: —
 
-- [ ] **TASK-008** — Write tests for ralph.py
+- [x] **TASK-008** — Write tests for ralph.py
   - Location: `tests/test_ralph.py`
   - Mock `subprocess.run` for agent CLI calls
   - Test cases:
@@ -131,7 +131,7 @@
 
 ### Phase 4 — Scaffold template files
 
-- [ ] **TASK-009** — Write `.ralph/PROMPT.md` template
+- [x] **TASK-009** — Write `.ralph/PROMPT.md` template
   - Location: `scaffold/.ralph/PROMPT.md`
   - Must include:
     - Section 1: Agent role and project context (reads from `prd.json` and `progress.txt`)
@@ -153,7 +153,7 @@
   - Acceptance: File exists; contains all 5 sections; RALPH_STATUS format is present verbatim
   - Notes: —
 
-- [ ] **TASK-010** — Write `AGENTS.md` template and `prd.json.example`
+- [x] **TASK-010** — Write `AGENTS.md` template and `prd.json.example`
   - `scaffold/.ralph/AGENTS.md`: template with clearly marked placeholders for:
     - Build command, test command, lint command
     - How to run the project locally
@@ -164,7 +164,7 @@
   - Acceptance: Both files exist and are valid (json.load passes on prd.json.example)
   - Notes: —
 
-- [ ] **TASK-011** — Write `pre-commit` hook and `install.sh`
+- [x] **TASK-011** — Write `pre-commit` hook and `install.sh`
   - `scaffold/hooks/pre-commit`:
     - Reads `test_cmd` from `.ralphrc.json` using python (no jq dependency)
     - Runs test command; if exit code != 0, prints failing test output and exits 1
@@ -183,14 +183,14 @@
 
 ### Phase 5 — Self-hosting wiring and docs
 
-- [ ] **TASK-012** — Wire up self-hosting: populate `.ralph/` for this repo
+- [x] **TASK-012** — Wire up self-hosting: populate `.ralph/` for this repo
   - `.ralph/PROMPT.md`: filled-in version using this repo's own prd.json
   - `.ralph/AGENTS.md`: filled-in with actual commands (`uv run pytest`, `uv run ruff check .`)
   - Validate: `python scaffold/scripts/task_runner.py status` runs against root `prd.json`
   - Acceptance: Running `task_runner.py status` from repo root prints correct task table
   - Notes: —
 
-- [ ] **TASK-013** — Write `CLAUDE.md` (Claude Code context file)
+- [x] **TASK-013** — Write `CLAUDE.md` (Claude Code context file)
   - Location: root `CLAUDE.md`
   - Content:
     - One-paragraph project summary
@@ -201,7 +201,7 @@
   - Acceptance: File exists at root; contains all four pointers
   - Notes: —
 
-- [ ] **TASK-014** — Write `README.md`
+- [x] **TASK-014** — Write `README.md`
   - Sections: What is this, Prerequisites, Quickstart (3 steps), File reference table,
     How the loop works, Contributing
   - Quickstart must be testable end-to-end in under 10 minutes
@@ -212,7 +212,7 @@
 
 ### Phase 6 — Final validation
 
-- [ ] **TASK-015** — Full acceptance criteria sweep
+- [x] **TASK-015** — Full acceptance criteria sweep
   - Run through every AC in PRD.md §8 manually and verify
   - Run `uv run pytest --tb=short -q` → must exit 0
   - Run `uv run ruff check .` → must return "All checks passed"
@@ -255,4 +255,10 @@
 
 ## Commit Log
 
-*(agent appends one line per commit: `[TASK-ID] description (YYYY-MM-DD)`)*
+- [TASK-001] initialize repo skeleton and pyproject.toml (2026-06-15)
+- [TASK-002/003] add prd.json and .ralphrc.json (2026-06-15)
+- [TASK-004/005] implement task_runner.py with full test suite (2026-06-15)
+- [TASK-006/007/008] implement ralph.py with circuit breaker and tests (2026-06-15)
+- [TASK-009/010/011] scaffold templates, pre-commit hook, install.sh (2026-06-15)
+- [TASK-012/013/014] self-hosting wiring, CLAUDE.md, README (2026-06-15)
+- [TASK-015] final AC sweep, prd.json all passes, task_runner returns done (2026-06-15)

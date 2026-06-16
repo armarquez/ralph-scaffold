@@ -56,7 +56,7 @@ while IFS= read -r -d '' src_file; do
     rel="${src_file#"$SCAFFOLD_DIR/"}"
     dst_file="$TARGET_DIR/$rel"
     copy_file "$src_file" "$dst_file"
-done < <(find "$SCAFFOLD_DIR" -type f -not -name '__init__.py' -print0)
+done < <(find "$SCAFFOLD_DIR" -type f -not -name '__init__.py' -not -path '*/__pycache__/*' -not -name '*.pyc' -print0)
 
 # Install pre-commit hook
 HOOK_SRC="$SCAFFOLD_DIR/hooks/pre-commit"
@@ -88,8 +88,8 @@ echo ""
 echo "Done. $copied file(s) copied, $skipped file(s) skipped."
 echo ""
 echo "Next steps:"
-echo "  1. Rename scaffold/prd.json.example → prd.json and fill it in"
+echo "  1. Rename prd.json.example → prd.json and fill it in"
 echo "  2. Fill in .ralph/AGENTS.md with your build/test/lint commands"
 echo "  3. Fill in .ralph/PROMPT.md with your project context"
 echo "  4. Edit .ralphrc.json to set your agent_cmd"
-echo "  5. Run: python scaffold/scripts/ralph.py"
+echo "  5. Run: python scripts/ralph.py"
