@@ -11,23 +11,21 @@ AI coding agents. Read the files below in order before writing any code.
 ## Build commands
 
 ```bash
-# Install dev deps
-uv sync
-
-# Run tests
-uv run pytest --tb=short -q
-
-# Run linter
-uv run ruff check .
-
-# Run both (required before every commit)
-uv run pytest --tb=short -q && uv run ruff check .
+just install   # first time setup (installs deps + wires pre-commit hook)
+just check     # before every commit (lint + tests)
+just test      # tests only
+just lint      # lint only
+just ralph     # dry-run loop
+just loop      # full loop (calls agent)
+just status    # task status table
 ```
+
+Requires `mise` and `just`. Install mise once: `curl https://mise.run | sh`, then `mise install`.
 
 ## Rules
 
 - Work through TASKS.md top-to-bottom. Do not skip ahead.
 - No third-party imports in `scaffold/scripts/ralph.py` or `scaffold/scripts/task_runner.py`.
-- Every task requires passing tests before the commit.
+- Every task requires passing tests before the commit (`just check`).
 - If you hit an Open Question from PRD.md §10, stop and flag it. Do not guess.
 - Append one line to the Commit Log in TASKS.md after each commit.
