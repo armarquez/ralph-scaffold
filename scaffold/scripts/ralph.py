@@ -62,7 +62,7 @@ def cmd_status(config: dict, loop_count: int, cb_state: str, last_task: str) -> 
     print(f"max_loops:        {config.get('max_loops', 20)}")
 
 
-def run_loop(config: dict, dry_run: bool) -> None:
+def run_loop(config: dict, dry_run: bool, loop_once: bool = False) -> None:
     agent_cmd = config["agent_cmd"]
     prd_file = config.get("prd_file", "prd.json")
     prompt_file = Path(config.get("prompt_file", ".ralph/PROMPT.md"))
@@ -139,6 +139,10 @@ def run_loop(config: dict, dry_run: bool) -> None:
         outcome = "PASS" if agent_result.returncode == 0 else "FAIL"
         _append_progress(progress_file, task_id, outcome)
 
+        if loop_once:
+            print(f"[loop-once] single iteration complete ({outcome}).")
+            sys.exit(0 if agent_result.returncode == 0 else 1)
+
         if no_progress_streak >= no_progress_threshold:
             msg = f"Circuit breaker: no file changes for {no_progress_streak} consecutive loops."
             print(f"\n[halt] {msg}")
@@ -159,6 +163,7 @@ def run_loop(config: dict, dry_run: bool) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Ralph loop runner")
     parser.add_argument("--dry-run", action="store_true", help="Print commands; skip agent call")
+    parser.add_argument("--loop-once", action="store_true", help="Run one iteration and exit")
     parser.add_argument("--status", action="store_true", help="Print current state and exit")
     parser.add_argument("--config", default=".ralphrc.json", help="Path to .ralphrc.json")
     args = parser.parse_args()
@@ -169,7 +174,7 @@ def main() -> None:
         cmd_status(config, loop_count=0, cb_state="closed", last_task="")
         return
 
-    run_loop(config, dry_run=args.dry_run)
+    run_loop(config, dry_run=args.dry_run, loop_once=args.loop_once)
 
 
 if __name__ == "__main__":

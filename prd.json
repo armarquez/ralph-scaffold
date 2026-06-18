@@ -175,33 +175,33 @@
       "title": "Open Question: ralph.py --loop-once flag for CI use",
       "priority": 100,
       "optional": true,
-      "passes": false,
+      "passes": true,
       "blocked": false,
       "blocked_reason": "",
-      "acceptance": "Resolved: decision documented in PRD.md",
-      "notes": "Should ralph.py support a --loop-once flag for CI use (run exactly one iteration and exit)?"
+      "acceptance": "Resolved: --loop-once implemented in ralph.py",
+      "notes": "Decision: yes. Runs one iteration and exits 0 (pass) or 1 (fail). Useful for CI cron jobs."
     },
     {
       "id": "OQ-002",
       "title": "Open Question: install.sh git init behavior",
       "priority": 100,
       "optional": true,
-      "passes": false,
+      "passes": true,
       "blocked": false,
       "blocked_reason": "",
-      "acceptance": "Resolved: decision documented in PRD.md",
-      "notes": "Should install.sh run git init if the target directory is not already a git repo?"
+      "acceptance": "Resolved: install.sh fails with clear error and git init hint",
+      "notes": "Decision: no auto-init. Fail loudly with hint: 'run git init in the target directory first'."
     },
     {
       "id": "OQ-003",
       "title": "Open Question: progress.txt gitignore decision",
       "priority": 100,
       "optional": true,
-      "passes": false,
+      "passes": true,
       "blocked": false,
       "blocked_reason": "",
-      "acceptance": "Resolved: decision documented in PRD.md",
-      "notes": "Should progress.txt be committed to git or added to .gitignore by default?"
+      "acceptance": "Resolved: progress.txt added to .gitignore",
+      "notes": "Decision: gitignore it. Ephemeral loop log; git history is the real audit trail."
     },
     {
       "id": "TASK-100",

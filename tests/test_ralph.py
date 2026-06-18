@@ -212,3 +212,51 @@ def test_max_loops_exits_with_code_2(tmp_path):
         with pytest.raises(SystemExit) as exc_info:
             ralph.run_loop(config, dry_run=False)
         assert exc_info.value.code == 2
+
+
+# --- loop_once ---
+
+def test_loop_once_exits_after_one_iteration(tmp_path):
+    cfg_path = make_config(tmp_path, {"circuit_breaker": HIGH_CB})
+    config = ralph._load_config(cfg_path)
+    config["progress_file"] = str(tmp_path / "progress.txt")
+
+    agent_result = MagicMock()
+    agent_result.returncode = 0
+    agent_result.stderr = ""
+
+    call_count = 0
+
+    def fake_next(_prd_file):
+        nonlocal call_count
+        call_count += 1
+        return {"id": "T-001", "title": "Task"}
+
+    with (
+        patch.object(ralph, "_task_runner_next", side_effect=fake_next),
+        patch.object(ralph, "_git_changed_files", return_value=["file.py"]),
+        patch("subprocess.run", return_value=agent_result),
+    ):
+        with pytest.raises(SystemExit) as exc_info:
+            ralph.run_loop(config, dry_run=False, loop_once=True)
+        assert exc_info.value.code == 0
+        assert call_count == 1
+
+
+def test_loop_once_exits_code_1_on_agent_failure(tmp_path):
+    cfg_path = make_config(tmp_path, {"circuit_breaker": HIGH_CB})
+    config = ralph._load_config(cfg_path)
+    config["progress_file"] = str(tmp_path / "progress.txt")
+
+    agent_result = MagicMock()
+    agent_result.returncode = 1
+    agent_result.stderr = "some error"
+
+    with (
+        patch.object(ralph, "_task_runner_next", return_value={"id": "T-001", "title": "Task"}),
+        patch.object(ralph, "_git_changed_files", return_value=["file.py"]),
+        patch("subprocess.run", return_value=agent_result),
+    ):
+        with pytest.raises(SystemExit) as exc_info:
+            ralph.run_loop(config, dry_run=False, loop_once=True)
+        assert exc_info.value.code == 1
