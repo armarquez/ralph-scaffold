@@ -10,9 +10,9 @@
 | Field | Value |
 |---|---|
 | **Project name** | `ralph-scaffold` |
-| **Version** | `0.1.0` |
-| **Status** | `active` |
-| **Last updated** | `2026-06-15` |
+| **Version** | `0.2.0` |
+| **Status** | `complete` |
+| **Last updated** | `2026-06-17` |
 | **Owner** | User |
 
 ---
@@ -33,12 +33,12 @@ choice.
 
 ## 3. Goals
 
-- [ ] **G-01**: `install.sh` copies scaffold files into a target project in under 5 seconds
-- [ ] **G-02**: `task_runner.py` can parse `prd.json`, return the next incomplete task, mark tasks complete/blocked, and exit when all tasks are done
-- [ ] **G-03**: `ralph.py` runs a configurable loop calling an external agent CLI, reads task state, enforces exit gate, and respects max-loop and circuit-breaker limits
-- [ ] **G-04**: All scaffold template files are populated with clear inline instructions so a human can fill them in without reading docs
-- [ ] **G-05**: A pre-commit git hook blocks commits when tests fail
-- [ ] **G-06**: The repo itself is self-hosting: its own `.ralph/` folder, `prd.json`, and `progress.txt` are valid examples of the scaffold in use
+- [x] **G-01**: `install.sh` copies scaffold files into a target project in under 5 seconds
+- [x] **G-02**: `task_runner.py` can parse `prd.json`, return the next incomplete task, mark tasks complete/blocked, and exit when all tasks are done
+- [x] **G-03**: `ralph.py` runs a configurable loop calling an external agent CLI, reads task state, enforces exit gate, and respects max-loop and circuit-breaker limits
+- [x] **G-04**: All scaffold template files are populated with clear inline instructions so a human can fill them in without reading docs
+- [x] **G-05**: A pre-commit git hook blocks commits when tests fail
+- [x] **G-06**: The repo itself is self-hosting: its own `.ralph/` folder, `prd.json`, and `progress.txt` are valid examples of the scaffold in use
 
 ---
 
@@ -183,38 +183,38 @@ Key design decisions:
 ## 8. Acceptance Criteria
 
 ### install.sh
-- [ ] `AC-01`: Running `./install.sh /path/to/target` copies all files from `scaffold/` into the target directory
-- [ ] `AC-02`: Copies `hooks/pre-commit` into `target/.git/hooks/pre-commit` and makes it executable
-- [ ] `AC-03`: Does not overwrite existing files (prompts or skips)
-- [ ] `AC-04`: Prints a summary of what was copied
+- [x] `AC-01`: Running `./install.sh /path/to/target` copies all files from `scaffold/` into the target directory
+- [x] `AC-02`: Copies `hooks/pre-commit` into `target/.git/hooks/pre-commit` and makes it executable
+- [x] `AC-03`: Does not overwrite existing files (prompts or skips)
+- [x] `AC-04`: Prints a summary of what was copied
 
 ### task_runner.py
-- [ ] `AC-05`: `python task_runner.py next` prints the highest-priority incomplete, non-blocked task ID and title as JSON
-- [ ] `AC-06`: `python task_runner.py complete TASK-001` sets `passes: true` in `prd.json` and prints confirmation
-- [ ] `AC-07`: `python task_runner.py block TASK-001 "error message"` sets `blocked: true` and writes `blocked_reason`
-- [ ] `AC-08`: `python task_runner.py status` prints a summary table of all tasks and their state
-- [ ] `AC-09`: `python task_runner.py next` exits with code `0` and prints `{"done": true}` when all non-optional tasks pass
-- [ ] `AC-10`: Optional tasks (`"optional": true`) are excluded from completion check
+- [x] `AC-05`: `python task_runner.py next` prints the highest-priority incomplete, non-blocked task ID and title as JSON
+- [x] `AC-06`: `python task_runner.py complete TASK-001` sets `passes: true` in `prd.json` and prints confirmation
+- [x] `AC-07`: `python task_runner.py block TASK-001 "error message"` sets `blocked: true` and writes `blocked_reason`
+- [x] `AC-08`: `python task_runner.py status` prints a summary table of all tasks and their state
+- [x] `AC-09`: `python task_runner.py next` exits with code `0` and prints `{"done": true}` when all non-optional tasks pass
+- [x] `AC-10`: Optional tasks (`"optional": true`) are excluded from completion check
 
 ### ralph.py
-- [ ] `AC-11`: Reads `.ralphrc.json` on startup; fails fast with a clear error if missing
-- [ ] `AC-12`: Each loop iteration: calls `task_runner.py next`, shells out to `agent_cmd` with `prompt_file` as context, then calls `task_runner.py` to check exit gate
-- [ ] `AC-13`: Exits cleanly when `task_runner.py next` returns `{"done": true}`
-- [ ] `AC-14`: Circuit breaker opens (loop halts) after `no_progress_threshold` consecutive loops with no git file changes
-- [ ] `AC-15`: Circuit breaker opens after `same_error_threshold` consecutive loops with the same error string
-- [ ] `AC-16`: On each loop, appends a `progress.txt` entry with task ID, outcome, and timestamp
-- [ ] `AC-17`: `ralph.py --dry-run` prints what would be executed each loop without calling the agent
-- [ ] `AC-18`: `ralph.py --status` prints current loop count, circuit breaker state, and last task
+- [x] `AC-11`: Reads `.ralphrc.json` on startup; fails fast with a clear error if missing
+- [x] `AC-12`: Each loop iteration: calls `task_runner.py next`, shells out to `agent_cmd` with `prompt_file` as context, then calls `task_runner.py` to check exit gate
+- [x] `AC-13`: Exits cleanly when `task_runner.py next` returns `{"done": true}`
+- [x] `AC-14`: Circuit breaker opens (loop halts) after `no_progress_threshold` consecutive loops with no git file changes
+- [x] `AC-15`: Circuit breaker opens after `same_error_threshold` consecutive loops with the same error string
+- [x] `AC-16`: On each loop, appends a `progress.txt` entry with task ID, outcome, and timestamp
+- [x] `AC-17`: `ralph.py --dry-run` prints what would be executed each loop without calling the agent
+- [x] `AC-18`: `ralph.py --status` prints current loop count, circuit breaker state, and last task
 
 ### pre-commit hook
-- [ ] `AC-19`: Runs `test_cmd` from `.ralphrc.json`; blocks commit if exit code is non-zero
-- [ ] `AC-20`: Prints a clear message identifying which test failed
+- [x] `AC-19`: Runs `test_cmd` from `.ralphrc.json`; blocks commit if exit code is non-zero
+- [x] `AC-20`: Prints a clear message identifying which test failed
 
 ### General
-- [ ] `AC-21`: All pytest tests in `tests/` pass with zero failures
-- [ ] `AC-22`: `ruff check .` returns no errors on all Python files
-- [ ] `AC-23`: `ralph.py` and `task_runner.py` have no third-party imports
-- [ ] `AC-24`: `README.md` contains a working quickstart that a new user can follow in under 10 minutes
+- [x] `AC-21`: All pytest tests in `tests/` pass with zero failures
+- [x] `AC-22`: `ruff check .` returns no errors on all Python files
+- [x] `AC-23`: `ralph.py` and `task_runner.py` have no third-party imports
+- [x] `AC-24`: `README.md` contains a working quickstart that a new user can follow in under 10 minutes
 
 ---
 
@@ -231,11 +231,11 @@ Key design decisions:
 
 ## 10. Open Questions
 
-> Agent must not make assumptions about these. Flag and stop if encountered.
+> All resolved.
 
-- [ ] Should `ralph.py` support a `--loop-once` flag for CI use (run exactly one iteration and exit)?
-- [ ] Should `install.sh` run `git init` if the target directory is not already a git repo?
-- [ ] Should `progress.txt` be committed to git or added to `.gitignore` by default?
+- [x] Should `ralph.py` support a `--loop-once` flag for CI use? **Yes** — implemented.
+- [x] Should `install.sh` run `git init` if the target directory is not a git repo? **No** — fail fast with a clear error and `git init` hint.
+- [x] Should `progress.txt` be committed to git or gitignored? **Gitignored** — ephemeral loop noise; git history is the audit trail.
 
 ---
 
@@ -244,3 +244,4 @@ Key design decisions:
 | Version | Date | Change |
 |---|---|---|
 | `0.1.0` | `2026-06-15` | Initial draft |
+| `0.2.0` | `2026-06-16` | mise + just integration; onboarding recipes; --loop-once; progress.txt gitignored |
